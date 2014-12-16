@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>test !</title>
+</head>
+<body>
+	{# Dans une vue Twig, en considérant bien sûr
+	que la variable advert_id est disponible #}
+
+	<a href="{{ path('bg_platform_view', { 'id': advert_id }) }}">
+		Lien vers l'annonce d'id {{ advert_id }}
+	</a>
+</body>
+</html>
