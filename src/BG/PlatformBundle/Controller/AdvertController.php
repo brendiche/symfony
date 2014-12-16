@@ -9,6 +9,7 @@ class AdvertController extends Controller
 {
     public function indexAction()
     {
-        return new Response("Hello world");
+    	$content = $this->get('templating')->render('BGPlatformBundle:Advert:index.html.twig',array('nom'=>'Brendan'));
+        return new Response($content);
     }
 }

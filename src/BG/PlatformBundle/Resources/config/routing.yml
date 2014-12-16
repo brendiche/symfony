@@ -1,7 +1,3 @@
-bg_platform_homepage:
-    path:     /hello/{name}
-    defaults: { _controller: BGPlatformBundle:Default:index }
-
 hello_the_world:
     path:    /hello-world
     defaults: { _controller:BGPlatformBundle:Advert:index}
