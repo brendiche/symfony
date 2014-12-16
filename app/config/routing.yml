@@ -1,0 +1,7 @@
+bg_platform:
+    resource: "@BGPlatformBundle/Resources/config/routing.yml"
+    prefix:   /
+
+app:
+    resource: @AppBundle/Controller/
+    type:     annotation

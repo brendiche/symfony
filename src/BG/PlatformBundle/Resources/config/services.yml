@@ -1,0 +1,7 @@
+parameters:
+#    bg_platform.example.class: BG\PlatformBundle\Example
+
+services:
+#    bg_platform.example:
+#        class: %bg_platform.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]
