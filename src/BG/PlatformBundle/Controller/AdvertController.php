@@ -13,7 +13,27 @@ class AdvertController extends Controller
         if($page == null||$page <= 0){
              $page = 1;
         }
-        return $this->render("BGPlatformBundle:Advert:index.html.twig",array("listAdverts"=>array()));
+         $listAdverts = array(
+      array(
+        'title'   => 'Recherche développpeur Symfony2',
+        'id'      => 1,
+        'author'  => 'Alexandre',
+        'content' => 'Nous recherchons un développeur Symfony2 débutant sur Lyon. Blabla…',
+        'date'    => new \Datetime()),
+      array(
+        'title'   => 'Mission de webmaster',
+        'id'      => 2,
+        'author'  => 'Hugo',
+        'content' => 'Nous recherchons un webmaster capable de maintenir notre site internet. Blabla…',
+        'date'    => new \Datetime()),
+      array(
+        'title'   => 'Offre de stage webdesigner',
+        'id'      => 3,
+        'author'  => 'Mathieu',
+        'content' => 'Nous proposons un poste pour webdesigner. Blabla…',
+        'date'    => new \Datetime())
+    );
+        return $this->render("BGPlatformBundle:Advert:index.html.twig",array("listAdverts"=>$listAdverts));
     }
 
     public function index01Action(){
@@ -22,8 +42,15 @@ class AdvertController extends Controller
     }
 
     public function viewAction($id){
+        $advert = array(
+          'title'   => 'Recherche développpeur Symfony2',
+          'id'      => $id,
+          'author'  => 'Alexandre',
+          'content' => 'Nous recherchons un développeur Symfony2 débutant sur Lyon. Blabla…',
+          'date'    => new \Datetime()
+        );
 
-    	return $this->render('BGPlatformBundle:Advert:view.html.twig',array('id'=>$id));
+        return $this->render('BGPlatformBundle:Advert:view.html.twig', array('advert' => $advert));
     }
 
     public function viewSlugAction($year,$slug,$_format){
