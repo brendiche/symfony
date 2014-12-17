@@ -1,18 +1,33 @@
 bg_platform_home:
-    path:    /
-    defaults: { _controller:BGPlatformBundle:Advert:index}
+    path:    /{page}
+    defaults: { page:1,_controller:BGPlatformBundle:Advert:index}
+    requirements:
+        page: \d*
+
 bg_platform_home01:
-    path:	/01
+    path:	/bite
     defaults: { _controller:BGPlatformBundle:Advert:index01}
+
 bg_platform_view:
     path:    /advert/{id}
     defaults: { _controller:BGPlatformBundle:Advert:view}
-bg_platform_add:
-    path:    /add
-    defaults: { _controller:BGPlatformBundle:Advert:add}
-bg_platform_view_slug:
-    path:    /{year}/{slug}.{_format}
-    defaults: { _controller:BGPlatformBundle:Advert:viewSlug, _format: html}
     requirements:
-        year: \d{4}
-        format: html|xml
+        id: \d+
+
+bg_platform_add:
+    path:    /add/{id}
+    defaults: { _controller:BGPlatformBundle:Advert:add}
+    requirements:
+        id: \d+
+
+bg_platform_edit:
+    path:    /edit/{id}
+    defaults: {_controller:BGPlatformBundle:Advert:edit}
+    requirements:
+        id: \d+
+
+bg_platform_delet:
+    path:    /delete/{id}
+    defaults: {_controller:BGPlatformBundle:Advert:delete}
+    requirements:
+        id: \d+
