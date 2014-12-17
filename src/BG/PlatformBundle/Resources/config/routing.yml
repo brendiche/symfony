@@ -5,7 +5,7 @@ bg_platform_home:
         page: \d*
 
 bg_platform_home01:
-    path:	/bite
+    path:	/test
     defaults: { _controller:BGPlatformBundle:Advert:index01}
 
 bg_platform_view:
@@ -16,9 +16,9 @@ bg_platform_view:
 
 bg_platform_add:
     path:    /add/{id}
-    defaults: { _controller:BGPlatformBundle:Advert:add}
+    defaults: { _controller:BGPlatformBundle:Advert:add,id:0}
     requirements:
-        id: \d+
+        id: \d*
 
 bg_platform_edit:
     path:    /edit/{id}
@@ -26,7 +26,7 @@ bg_platform_edit:
     requirements:
         id: \d+
 
-bg_platform_delet:
+bg_platform_delete:
     path:    /delete/{id}
     defaults: {_controller:BGPlatformBundle:Advert:delete}
     requirements:
