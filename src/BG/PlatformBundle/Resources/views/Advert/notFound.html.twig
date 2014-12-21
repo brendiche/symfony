@@ -1,0 +1,18 @@
+{% extends "BGPlatformBundle::layout.html.twig" %}
+
+{% block title %}
+  Not Found - {{ parent() }}
+{% endblock %}
+
+{% block bgplatform_body %}
+
+  <h2>404 - Cette annonce n'existe pas</h2>
+
+  <p>
+    <a href="{{ path('bg_platform_home') }}" class="btn btn-default">
+      <i class="glyphicon glyphicon-chevron-left"></i>
+      Retour aux annonces
+    </a>
+  </p>
+
+{% endblock %}

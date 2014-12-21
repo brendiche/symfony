@@ -5,6 +5,8 @@ namespace BG\PlatformBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
+use BG\PlatformBundle\Entity\Advert;
+use BG\PlatformBundle\Entity\Image;
 
 class AdvertController extends Controller
 {
@@ -42,6 +44,44 @@ class AdvertController extends Controller
     }
 
     public function viewAction($id){
+        $repository = $this->getDoctrine()->getManager()->getRepository('BGPlatformBundle:Advert');
+        $advert = $repository->find($id);
+        if($advert === null) {
+          return $this->render("BGPlatformBundle:Advert:notFound.html.twig");
+        }
+        return $this->render('BGPlatformBundle:Advert:view.html.twig', array('advert' => $advert));
+    }
+  
+    public function addAction(Request $request){
+        $advert = new Advert();
+          $advert->setTitle('Recherche développpeur Symfony2');
+          $advert->setAuthor('Alexandre');
+          $advert->setContent('Nous recherchons un développeur Symfony2 débutant sur Lyon. Blabla…');
+
+          $image = new Image();
+          $image->setUrl('http://sdz-upload.s3.amazonaws.com/prod/upload/job-de-reve.jpg');
+          $image->setAlt('Job de rêve');
+
+          $advert->setImage($image);
+
+          $em = $this->getDoctrine()->getManager();
+          $em->persist($advert);
+          $em->flush();
+        if($request->isMethod('POST')){
+
+
+          
+            $request->getSession()->getFlashBag()->add('notice','Annonce bien enregistrée.');
+            return $this->redirect($this->generateUrl('bg_platform_view', array('id' => $advert->getId())));    
+        }
+        return $this->render('BGPlatformBundle:Advert:add.html.twig');
+    }
+
+    public function editAction($id,Request $request){
+        if($request->isMethod('POST')){
+            $request->getSession()->getFlashBag()->add('notice','Annonce bien modifiée.');
+            return $this->redirect($this->generateUrl('bg_platform_view', array('id' => 5)));    
+        }
         $advert = array(
           'title'   => 'Recherche développpeur Symfony2',
           'id'      => $id,
@@ -50,31 +90,9 @@ class AdvertController extends Controller
           'date'    => new \Datetime()
         );
 
-        return $this->render('BGPlatformBundle:Advert:view.html.twig', array('advert' => $advert));
-    }
-
-    public function viewSlugAction($year,$slug,$_format){
-
-    	  return new Response(
-            "On pourrait afficher l'annonce correspondant au
-            slug '".$slug."', créée en ".$year." ,au format ".$_format
-        );
-    }
-  
-    public function addAction($id,Request $request){
-        if($request->isMethod('POST')){
-            $request->getSession()->getFlashBag()->add('notice','Annonce bien enregistrée.');
-            return $this->redirect($this->generateUrl('bg_platform_view', array('id' => 5)));    
-        }
-        return $this->render('BGPlatformBundle:Advert:add.html.twig');
-    }
-
-    public function editAction(Request $request){
-        if($request->isMethod('POST')){
-            $request->getSession()->getFlashBag()->add('notice','Annonce bien modifiée.');
-            return $this->redirect($this->generateUrl('bg_platform_view', array('id' => 5)));    
-        }
-        return $this->render('BGPlatformBundle:Advert:edit.html.twig');
+        return $this->render('BGPlatformBundle:Advert:edit.html.twig', array(
+          'advert' => $advert
+        ));
     }
 
     public function deleteAction($id){

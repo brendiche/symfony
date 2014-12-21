@@ -15,10 +15,8 @@ bg_platform_view:
         id: \d+
 
 bg_platform_add:
-    path:    /add/{id}
-    defaults: { _controller:BGPlatformBundle:Advert:add,id:0}
-    requirements:
-        id: \d*
+    path:    /add
+    defaults: { _controller:BGPlatformBundle:Advert:add}
 
 bg_platform_edit:
     path:    /edit/{id}
