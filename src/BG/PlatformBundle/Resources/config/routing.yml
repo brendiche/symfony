@@ -1,6 +1,6 @@
 bg_platform_home:
     path:    /{page}
-    defaults: { page:1,_controller:BGPlatformBundle:Advert:index}
+    defaults: {page:1, _controller:BGPlatformBundle:Advert:index}
     requirements:
         page: \d*
 

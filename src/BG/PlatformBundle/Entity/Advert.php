@@ -2,6 +2,7 @@
 
 namespace BG\PlatformBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -9,6 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="bg_advert")
  * @ORM\Entity(repositoryClass="BG\PlatformBundle\Entity\AdvertRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Advert
 {
@@ -17,6 +19,11 @@ class Advert
     * @ORM\OneToOne(targetEntity="BG\PlatformBundle\Entity\Image", cascade={"persist"})
     */
     private $image;
+
+    /**
+    * @ORM\ManyToMany(targetEntity="BG\PlatformBundle\Entity\Category", cascade={"persist"})
+    */
+    private $categories;
 
     /**
      * @var integer
@@ -60,10 +67,23 @@ class Advert
     */
     private $published = true;
 
+    /**
+    * @ORM\Column(name="updated_at", type="datetime", nullable=true)
+    */
+    private $updatedAt;    
+
     public function __construct(){
         $this->date = new \DateTime();
+        $this->categories = new ArrayCollection();
     }
 
+    /**
+    * @ORM\PreUpdate
+    */
+    public function updateDate()
+    {
+        $this->setUpdatedAt(new \Datetime());
+    }
 
     /**
      * Get id
@@ -212,4 +232,24 @@ class Advert
     {
         return $this->image;
     }
+
+     public function addCategory(Category $category)
+  {
+    // Ici, on utilise l'ArrayCollection vraiment comme un tableau
+    $this->categories[] = $category;
+
+    return $this;
+  }
+
+  public function removeCategory(Category $category)
+  {
+    // Ici on utilise une méthode de l'ArrayCollection, pour supprimer la catégorie en argument
+    $this->categories->removeElement($category);
+  }
+
+  // Notez le pluriel, on récupère une liste de catégories ici !
+  public function getCategories()
+  {
+    return $this->categories;
+  }
 }

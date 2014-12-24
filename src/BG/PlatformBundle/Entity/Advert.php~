@@ -19,6 +19,11 @@ class Advert
     private $image;
 
     /**
+    * @ORM\ManyToMany(targetEntity="BG\PlatformBundle\Entity\Category", cascade={"persist"})
+    */
+    private $categories;
+
+    /**
      * @var integer
      *
      * @ORM\Column(name="id", type="integer")
@@ -62,6 +67,7 @@ class Advert
 
     public function __construct(){
         $this->date = new \DateTime();
+        $this->categories = new ArrayCollection();
     }
 
 
@@ -189,4 +195,47 @@ class Advert
     {
         return $this->published;
     }
+
+    /**
+     * Set image
+     *
+     * @param \BG\PlatformBundle\Entity\Image $image
+     * @return Advert
+     */
+    public function setImage(\BG\PlatformBundle\Entity\Image $image = null)
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    /**
+     * Get image
+     *
+     * @return \BG\PlatformBundle\Entity\Image 
+     */
+    public function getImage()
+    {
+        return $this->image;
+    }
+
+     public function addCategory(Category $category)
+  {
+    // Ici, on utilise l'ArrayCollection vraiment comme un tableau
+    $this->categories[] = $category;
+
+    return $this;
+  }
+
+  public function removeCategory(Category $category)
+  {
+    // Ici on utilise une méthode de l'ArrayCollection, pour supprimer la catégorie en argument
+    $this->categories->removeElement($category);
+  }
+
+  // Notez le pluriel, on récupère une liste de catégories ici !
+  public function getCategories()
+  {
+    return $this->categories;
+  }
 }
