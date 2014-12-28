@@ -1,7 +1,48 @@
 <h3>Formulaire d'annonce</h3>
 
-{# On laisse vide la vue pour l'instant, on la comblera plus tard
-   lorsqu'on saura afficher un formulaire. #}
 <div class="well">
-  Ici se trouvera le formulaire.
+  {{ form_start(form,{'attr':{'class':'form-horizontal'}}) }}
+  {{form_errors(form)}}
+  <div class='form-group'>
+  	{{form_label(form.title,"Titre de l'annonce",{"label_attr":{"class":"col-md-3 control-label"}})}}
+  	{{form_errors(form.title)}}
+  	<div class="col-md-4">
+  		{{ form_widget(form.title,{'attr':{'class':'form-control'}})}}
+  	</div>	
+  </div>
+  <div class='form-group'>
+  	{{form_label(form.content,"Contenu de l'annonce",{"label_attr":{"class":"col-md-3 control-label"}})}}
+  	{{form_errors(form.content)}}
+  	<div class="col-md-4">
+  		{{ form_widget(form.content,{'attr':{'class':'form-control'}})}}
+  	</div>	
+  </div>
+  <div class='form-group'>
+  	{{form_label(form.author,"Auteur de l'annonce",{"label_attr":{"class":"col-md-3 control-label"}})}}
+  	{{form_errors(form.author)}}
+  	<div class="col-md-4">
+  		{{ form_widget(form.author,{'attr':{'class':'form-control'}})}}
+  	</div>	
+  </div>
+  <div class='form-group'>
+  	{{form_label(form.date,"Date",{"label_attr":{"class":"col-md-3 control-label"}})}}
+  	{{form_errors(form.date)}}
+  	<div class="col-md-4">
+  		{{ form_widget(form.date)}}
+  	</div>	
+  </div>
+  <div class='form-group'>
+  	{{form_label(form.published,"Publier l'annonce",{"label_attr":{"class":"col-md-3 control-label"}})}}
+  	{{form_errors(form.published)}}
+  	<div class="col-md-4">
+  		{{ form_widget(form.published)}}
+  	</div>	
+  </div>
+  <div class='form-group'>
+  	<div class="col-md-4 col-md-offset-3">
+  		{{ form_widget(form.save,{'attr':{'class':'btn'}})}}
+  	</div>	
+  </div>
+  {{form_rest(form)}}
+  {{form_end(form)}}
 </div>

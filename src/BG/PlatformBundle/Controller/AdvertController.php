@@ -41,52 +41,50 @@ class AdvertController extends Controller
     }
   
     public function addAction(Request $request){
-      // $em = $this->getDoctrine()->getManager();
-      // $advert = new Advert();
-      // $advert->setTitle('Recherche développpeur Symfony2');
-      // $advert->setAuthor('Alexandre');
-      // $advert->setContent('Nous recherchons un développeur Symfony2 débutant sur Lyon. Blabla…');
+      $advert = new Advert;
+      $advert->setDate(new \Datetime());
+      $form = $this->get('form.factory')->createBuilder('form',$advert)
+      ->add('date',      'date')
+      ->add('title',     'text')
+      ->add('content',   'textarea')
+      ->add('author',    'text')
+      ->add('published', 'checkbox',array('required'=>false))
+      ->add('save',      'submit')
+      ->getForm();
+      $form->handleRequest($request);
 
-      // $listSkills = $em->getRepository('BGPlatformBundle:Skill')->findAll();
-
-      // foreach ($listSkills as $skill) {
-      //   // On crée une nouvelle « relation entre 1 annonce et 1 compétence »
-      //   $advertSkill = new AdvertSkill();
-      //   $advertSkill->setAdvert($advert);
-      //   $advertSkill->setSkill($skill);
-      //   $advertSkill->setLevel('Expert');
-      //   $em->persist($advertSkill);
-      // }
-      // $em->persist($advert);
-      // $em->flush();
-        if($request->isMethod('POST')){
-            $request->getSession()->getFlashBag()->add('notice','Annonce bien enregistrée.');
-            return $this->redirect($this->generateUrl('bg_platform_view', array('id' => $advert->getId())));    
+        if($request->isMethod('POST') && $form->isValid()){
+          $em = $this->getDoctrine()->getManager();
+          $em->persist($advert);
+          $em->flush();
+          $request->getSession()->getFlashBag()->add('notice','Annonce bien enregistrée.');
+          return $this->redirect($this->generateUrl('bg_platform_view', array('id' => $advert->getId())));    
         }
-        return $this->render('BGPlatformBundle:Advert:add.html.twig');
+        return $this->render('BGPlatformBundle:Advert:add.html.twig',array('form' => $form->createView()));
     }
 
     public function editAction($id,Request $request){
-      $em = $this->getDoctrine()->getManager();
+      $em = $this->getDoctrine()->getManager(); 
       $advert = $em->getRepository('BGPlatformBundle:Advert')->find($id);
       if (null === $advert) {
         return $this->render("BGPlatformBundle:Advert:notFound.html.twig");
       }
+      $form = $this->get('form.factory')->createBuilder('form', $advert)
+      ->add('date',      'date')
+      ->add('title',     'text')
+      ->add('content',   'textarea')
+      ->add('author',    'text')
+      ->add('published', 'checkbox',array('required'=>false))
+      ->add('save',      'submit')
+      ->getForm();
 
-      $listCategories = $em->getRepository('BGPlatformBundle:Category')->findAll();
-
-    // On boucle sur les catégories pour les lier à l'annonce
-      foreach ($listCategories as $category) {
-        $advert->addCategory($category);
-      }
-      $em->flush();
-
-      if($request->isMethod('POST')){
+      if($request->isMethod('POST') && $form->isValid()){
         $request->getSession()->getFlashBag()->add('notice','Annonce bien modifiée.');
-        return $this->redirect($this->generateUrl('bg_platform_view', array('id' => 5)));    
+        return $this->redirect($this->generateUrl('bg_platform_view', array('id' => $advert->getId())));    
       }
       return $this->render('BGPlatformBundle:Advert:edit.html.twig', array(
-        'advert' => $advert
+        'form' => $form->createView(),
+        'advert' =>$advert
         ));
     }
 

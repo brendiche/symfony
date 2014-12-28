@@ -1,3 +1,14 @@
-<form>
-	<input >
-</form>
+{% extends "BGPlatformBundle::layout.html.twig" %}
+
+{% block title %}
+  Ajouter une annonce - {{ parent() }}
+{% endblock %}
+
+{% block bgplatform_body %}
+
+  <h2>Ajouter une annonce</h2>
+
+  {{ include("BGPlatformBundle:Advert:form.html.twig") }}
+
+
+{% endblock %}
